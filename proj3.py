@@ -35,7 +35,25 @@ def insert(heap: MinHeap, element: Node) -> MinHeap:
 
 
 def heapify_down(heap: MinHeap, index: int) -> MinHeap:
-    pass
+    new_data = heap.data[:]
+    left = 2 * index + 1
+    right = 2 * index + 2
+    size = len(new_data)
+    if left >= size:
+        return MinHeap(new_data)
+    smallest = left
+    if right < size and new_data[right] < new_data[left]:
+        smallest = right
+    if new_data[smallest] < new_data[index]:
+        temp = new_data[index]
+        new_data[index] = new_data[smallest]
+        new_data[smallest] = temp
+        return heapify_down(MinHeap(new_data), smallest)
+
+    return MinHeap(new_data)
+
+
+
 
 def extract_min(heap: MinHeap) -> tuple[MinHeap, Node]:
     pass
