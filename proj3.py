@@ -27,12 +27,9 @@ def heapify_up(heap: MinHeap, index: int) -> MinHeap:
         return heapify_up(MinHeap(new_data), parent)
     return MinHeap(new_data)
 
-
-
 def insert(heap: MinHeap, element: Node) -> MinHeap:
     new_data = heap.data + [element]
     return heapify_up(MinHeap(new_data), len(new_data) - 1)
-
 
 def heapify_down(heap: MinHeap, index: int) -> MinHeap:
     new_data = heap.data[:]
@@ -52,34 +49,43 @@ def heapify_down(heap: MinHeap, index: int) -> MinHeap:
 
     return MinHeap(new_data)
 
-
-
-
 def extract_min(heap: MinHeap) -> tuple[MinHeap, Node]:
-    pass
+    min_node = heap.data[0]
+    if len(heap.data) == 1:
+        return MinHeap([]), min_node
+    new_data = [heap.data[-1]] + heap.data[1:-1]
+    new_heap = heapify_down(MinHeap(new_data), 0)
+    return new_heap, min_node
 
-
-        
 def count_frequency(s: str)-> dict[str,int]:
-
-    pass
-
+    frequency = {}
+    for char in s:
+        if char in frequency:
+            frequency[char] += 1
+        else:
+            frequency[char] = 1
+    return frequency
 
 def create_priority_queue(frequency: dict[str, int]) -> MinHeap:
-
-    pass
-
-
+    heap = MinHeap([])
+    for char, freq in frequency.items():
+        heap = insert(heap, Node(freq, char))
+    return heap
 
 def build_tree(priority_queue: MinHeap) -> Node:
-    pass
-
+    heap = priority_queue
+    while len(heap.data) > 1:
+        heap, l = extract_min(heap)
+        heap, r = extract_min(heap)
+        freq = l.freq + r.freq
+        char = l.char + r.char
+        parent = Node(freq, char, l, r)
+        heap = insert(heap, parent)
+    return heap.data[0]
 
 
 
 def generate_codes(node: Node | None, prefix="", code: dict | None =None)-> dict:
-    if code is None:
-        code = {}  
     pass
 
 
